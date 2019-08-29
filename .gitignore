@@ -1,3 +1,3 @@
 node_modules/
-mongo-db/
+.package-lock.json
 .vscode
