@@ -1,32 +1,21 @@
-class HexArray {
-  constructor(arr) {
-    this.hexarray = arr;
-  }
+const translator = require("./translator");
 
-  translateToInternal = (data, translation) => {
-    let res = 0;
-    if (translation.texttable)
-      translation.texttable.forEach(text => {
-        if (data === text.text) res = text.lowerLimit;
-      });
-    res -= translation.offset;
-    res /= translation.numerator;
-    // Limits ?
-    return res;
-  };
+function HexArray(arr) {
+  this.hexarray = arr;
 
-  insertPhysical = (data, translation) => {
+  this.insertPhysical = (data, translation) => {
     // console.log(translation);
-    const internalData = this.translateToInternal(data, translation);
+    const internalData = translator.toInternal(data, translation);
     this.insert(
       translation.byteposition,
       translation.bitposition,
       translation.bitlength,
       internalData
     );
+    return this;
   };
 
-  insert = (byteposition, bitposition, length, data) => {
+  this.insert = (byteposition, bitposition, length, data) => {
     const bytecount = Math.ceil((bitposition + length) / 8);
     const mask = ((1 << length) - 1) << bitposition;
     const shiftedData = data << bitposition;
@@ -37,8 +26,11 @@ class HexArray {
       this.hexarray[index] = this.hexarray[index] | (maskedShiftedData & 0xff);
       maskedShiftedData = maskedShiftedData >> 8;
     }
+    return this;
   };
-  get = () => {
+
+  this.getPhysical = dictionary => {};
+  this.get = () => {
     return this.hexarray;
   };
 }
