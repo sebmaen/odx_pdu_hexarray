@@ -1,11 +1,25 @@
 {
   "name": "odx_pdu_hexarray",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Used to Handle Hex Arrays",
   "main": "HexArray.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Philipp Vincon",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebmaen/odx_pdu_hexarray.git"
+  },
+  "keywords": [
+    "ODX",
+    "PDU",
+    "Hex",
+    "Array"
+  ],
+  "bugs": {
+    "url": "https://github.com/sebmaen/odx_pdu_hexarray/issues"
+  },
+  "homepage": "https://github.com/sebmaen/odx_pdu_hexarray#readme"
 }
