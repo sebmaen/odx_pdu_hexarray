@@ -1,0 +1,11 @@
+{
+  "name": "odx_pdu_hexarray",
+  "version": "1.0.0",
+  "description": "Used to Handle Hex Arrays",
+  "main": "HexArray.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Philipp Vincon",
+  "license": "ISC"
+}
