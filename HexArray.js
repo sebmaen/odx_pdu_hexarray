@@ -20,16 +20,41 @@ function HexArray(arr) {
     const mask = ((1 << length) - 1) << bitposition;
     const shiftedData = data << bitposition;
     let maskedShiftedData = shiftedData & mask;
-    // console.log(bytepos, bytecount, maskedShiftedData);
-    for (let index = byteposition + bytecount; index--; index > byteposition) {
-      // console.log(index);
+    for (
+      let index = byteposition + bytecount - 1;
+      index >= byteposition;
+      index--
+    ) {
       this.hexarray[index] = this.hexarray[index] | (maskedShiftedData & 0xff);
       maskedShiftedData = maskedShiftedData >> 8;
     }
     return this;
   };
+  this.getRaw = (byteposition, bitposition, length) => {
+    const bytecount = Math.ceil((bitposition + length) / 8);
+    const mask = ((1 << length) - 1) << bitposition;
+    let raw = 0;
+    for (let index = byteposition; index < byteposition + bytecount; index++) {
+      raw = (raw << 8) | (this.hexarray[index] & 0xff);
+    }
+    raw &= mask;
+    raw = raw >> bitposition;
+    return raw;
+  };
 
-  this.getPhysical = dictionary => {};
+  this.getPhysical = dictionary => {
+    let res = {};
+    dictionary.forEach(({ name, translation }) => {
+      const internal = this.getRaw(
+        translation.byteposition,
+        translation.bitposition,
+        translation.bitlength
+      );
+      res[name] = translator.toPhysical(internal, translation);
+    });
+    return res;
+  };
+
   this.get = () => {
     return this.hexarray;
   };
