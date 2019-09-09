@@ -26,13 +26,51 @@ test("getPhysical for dict {startbyte:0, startbis:0, bitlength:8} of [10] should
       {
         name: "test",
         translation: {
-          byteposition: 0,
-          bitposition: 0,
-          bitlength: 8,
+          bytePosition: 0,
+          bitPosition: 0,
+          bitLength: 8,
           offset: 0,
           numerator: 2
         }
       }
     ])
   ).toStrictEqual({ test: 20 });
+});
+test("getPhysical for dict {startbyte:0, , bitlength:8} of [10] should be 10", () => {
+  expect(
+    new HexArray([10, 20]).getPhysical([
+      {
+        name: "test",
+        translation: {
+          bytePosition: 0,
+          bitLength: 8,
+          offset: 0,
+          numerator: 2
+        }
+      },
+      {
+        name: "test2",
+        translation: {
+          bytePosition: 1,
+          bitLength: 8
+        }
+      }
+    ])
+  ).toStrictEqual({ test: 20, test2: 20 });
+});
+test("insertPhysical for dict test", () => {
+  expect(
+    new HexArray([0, 0, 0])
+      .insertPhysical("ja", {
+        bytePosition: 3,
+        bitPosition: 2,
+        bitLength: 1,
+        numerator: 1,
+        textTable: [
+          { text: "nein" },
+          { lowerLimit: 1, upperLimit: 1, text: "ja" }
+        ]
+      })
+      .get()
+  ).toStrictEqual([0, 0, 0, 0b100]);
 });

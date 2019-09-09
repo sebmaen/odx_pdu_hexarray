@@ -6,23 +6,24 @@ function HexArray(arr) {
   this.insertPhysical = (data, translation) => {
     // console.log(translation);
     const internalData = translator.toInternal(data, translation);
+    // console.log(internalData);
     this.insert(
-      translation.byteposition,
-      translation.bitposition,
-      translation.bitlength,
+      translation.bytePosition,
+      translation.bitPosition,
+      translation.bitLength,
       internalData
     );
     return this;
   };
 
-  this.insert = (byteposition, bitposition, length, data) => {
-    const bytecount = Math.ceil((bitposition + length) / 8);
-    const mask = ((1 << length) - 1) << bitposition;
-    const shiftedData = data << bitposition;
+  this.insert = (bytePosition, bitPosition, length, data) => {
+    const bytecount = Math.ceil((bitPosition + length) / 8);
+    const mask = ((1 << length) - 1) << bitPosition;
+    const shiftedData = data << bitPosition;
     let maskedShiftedData = shiftedData & mask;
     for (
-      let index = byteposition + bytecount - 1;
-      index >= byteposition;
+      let index = bytePosition + bytecount - 1;
+      index >= bytePosition;
       index--
     ) {
       this.hexarray[index] = this.hexarray[index] | (maskedShiftedData & 0xff);
@@ -30,15 +31,15 @@ function HexArray(arr) {
     }
     return this;
   };
-  this.getRaw = (byteposition, bitposition, length) => {
-    const bytecount = Math.ceil((bitposition + length) / 8);
-    const mask = ((1 << length) - 1) << bitposition;
+  this.getRaw = (bytePosition, bitPosition, length) => {
+    const bytecount = Math.ceil((bitPosition + length) / 8);
+    const mask = ((1 << length) - 1) << bitPosition;
     let raw = 0;
-    for (let index = byteposition; index < byteposition + bytecount; index++) {
+    for (let index = bytePosition; index < bytePosition + bytecount; index++) {
       raw = (raw << 8) | (this.hexarray[index] & 0xff);
     }
     raw &= mask;
-    raw = raw >> bitposition;
+    raw = raw >> bitPosition;
     return raw;
   };
 
@@ -46,9 +47,9 @@ function HexArray(arr) {
     let res = {};
     dictionary.forEach(({ name, translation }) => {
       const internal = this.getRaw(
-        translation.byteposition,
-        translation.bitposition,
-        translation.bitlength
+        translation.bytePosition,
+        translation.bitPosition || 0,
+        translation.bitLength
       );
       res[name] = translator.toPhysical(internal, translation);
     });

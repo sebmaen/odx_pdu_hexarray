@@ -32,7 +32,7 @@ test("translate 'two' to internal 1 using {offset:1,numerator:1,texttable:[{lowe
     translator.toInternal("two", {
       offset: 1,
       numerator: 1,
-      texttable: [{ lowerLimit: 2, upperLimit: 2, text: "two" }]
+      textTable: [{ lowerLimit: 2, upperLimit: 2, text: "two" }]
     })
   ).toBe(1);
 });
@@ -69,7 +69,7 @@ test("translate 1 to physical 'two' using {offset:1,numerator:1,texttable:[{lowe
     translator.toPhysical(1, {
       offset: 1,
       numerator: 1,
-      texttable: [{ lowerLimit: 2, upperLimit: 2, text: "two" }]
+      textTable: [{ lowerLimit: 2, upperLimit: 2, text: "two" }]
     })
   ).toBe("two");
 });
