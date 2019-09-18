@@ -9,7 +9,7 @@ function HexArray(arr) {
     // console.log(internalData);
     this.insert(
       translation.bytePosition,
-      translation.bitPosition,
+      translation.bitPosition || 0,
       translation.bitLength,
       internalData
     );

@@ -74,3 +74,18 @@ test("insertPhysical for dict test", () => {
       .get()
   ).toStrictEqual([0, 0, 0, 0b100]);
 });
+test("insertPhysical for dict test no bitposition", () => {
+  expect(
+    new HexArray([0, 0, 0])
+      .insertPhysical("ja", {
+        bytePosition: 3,
+        bitLength: 1,
+        numerator: 1,
+        textTable: [
+          { text: "nein" },
+          { lowerLimit: 1, upperLimit: 1, text: "ja" }
+        ]
+      })
+      .get()
+  ).toStrictEqual([0, 0, 0, 0b1]);
+});
