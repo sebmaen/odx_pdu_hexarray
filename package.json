@@ -1,6 +1,6 @@
 {
   "name": "odx_pdu_hexarray",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Used to Handle Hex Arrays",
   "main": "HexArray.js",
   "scripts": {
