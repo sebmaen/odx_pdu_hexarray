@@ -16,11 +16,27 @@ module.exports = {
   },
   toPhysical: (data, translation) => {
     let res = 0;
-    res = data * (translation.numerator || 1);
-    res = res += translation.offset || 0;
+    // use numerator and offset only if the bigInt data is small enougth...
+    const smallInt = parseInt(data);
+    if (smallInt !== Infinity) {
+      res = smallInt * (translation.numerator || 1);
+      res = res += translation.offset || 0;
+    } else {
+      res = data;
+    }
     if (translation.textTable)
       translation.textTable.forEach(text => {
-        if (res >= text.lowerLimit && res <= text.lowerLimit) res = text.text;
+        // const lowerLimit = typeof(text.lowerLimit) === "number": text.lowerLimit : parseInt( text.lowerLimit )
+        if (text.hexDump && BigInt(res) === BigInt("0x" + text.hexDump)) {
+          res = text.text;
+        }
+        if (
+          text.lowerLimit &&
+          text.upperLimit &&
+          res >= text.lowerLimit &&
+          res <= text.upperLimit
+        )
+          res = text.text;
       });
     return res;
   }

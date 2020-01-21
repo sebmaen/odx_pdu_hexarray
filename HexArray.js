@@ -34,12 +34,12 @@ function HexArray(arr) {
   this.getRaw = (bytePosition, bitPosition, length) => {
     const bytecount = Math.ceil((bitPosition + length) / 8);
     const mask = ((1 << length) - 1) << bitPosition;
-    let raw = 0;
+    let raw = BigInt(0);
     for (let index = bytePosition; index < bytePosition + bytecount; index++) {
-      raw = (raw << 8) | (this.hexarray[index] & 0xff);
+      raw = (raw << BigInt(8)) | BigInt(this.hexarray[index] & 0xff);
     }
-    raw &= mask;
-    raw = raw >> bitPosition;
+    raw &= BigInt(mask);
+    raw = raw >> BigInt(bitPosition);
     return raw;
   };
 
@@ -55,7 +55,17 @@ function HexArray(arr) {
     });
     return res;
   };
-
+  this.getHexDump = ({ bytePosition, bitPosition, bitLength }) => {
+    if (bitPosition !== 0 && bitPosition !== undefined)
+      throw new Error("bitPosition in getHexDump not supported");
+    if (bitLength % 8)
+      throw new Error(
+        "length in getHexDump not supported (not a complete Byte)"
+      );
+    const bytes = parseInt(bitLength / 8);
+    console.log(bytes);
+    return this.hexarray.slice(bytePosition, bytePosition + bytes);
+  };
   this.get = () => {
     return this.hexarray;
   };

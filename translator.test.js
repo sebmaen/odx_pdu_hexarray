@@ -37,6 +37,14 @@ test("translate 'two' to internal 1 using {offset:1,numerator:1,texttable:[{lowe
   ).toBe(1);
 });
 
+test("translate hex '00FF' to physical 'two' using {offset:1,numerator:1,texttable:[{hexDump:'00FF', text:'two'}]} ", () => {
+  expect(
+    translator.toPhysical(BigInt(0xff), {
+      textTable: [{ hexDump: "00FF", text: "two" }]
+    })
+  ).toBe("two");
+});
+
 test("translate 0 to physical 0 using {offset:0,numerator:2} ", () => {
   expect(
     translator.toPhysical(0, {
